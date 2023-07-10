@@ -4,10 +4,14 @@ import HomeHeader from '../component/HomeHeader';
 import HomeCafeteria from '../component/HomeCafeteria';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
+  const router = route?.params;
+  const {grade, gradeInfo} = router;
+  const userGradeInfo = {grade, gradeInfo};
+
   return (
     <SafeAreaView style={styles.block}>
-      <HomeHeader />
+      <HomeHeader userGradeInfo={userGradeInfo} />
       <HomeCafeteria />
     </SafeAreaView>
   );

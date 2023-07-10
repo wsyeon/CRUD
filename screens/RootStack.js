@@ -13,6 +13,12 @@ const Stack = createNativeStackNavigator();
 const RootStack = () => {
   return (
     <Stack.Navigator>
+      {/* 시작 페이지 */}
+      <Stack.Screen
+        name="Start"
+        component={StartScreen}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="MainTab"
         component={MainTab}
@@ -34,12 +40,6 @@ const RootStack = () => {
       <Stack.Screen
         name="Write"
         component={WriteScreen}
-        options={{headerShown: false}}
-      />
-      {/* 시작 페이지 */}
-      <Stack.Screen
-        name="Start"
-        component={StartScreen}
         options={{headerShown: false}}
       />
       {/* 로그인 페이지 */}

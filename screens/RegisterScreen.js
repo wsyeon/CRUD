@@ -8,10 +8,68 @@ import {
   Platform,
 } from 'react-native';
 import Picker from 'react-native-picker-select';
+import {register} from '../lib/auth';
+import {useNavigation} from '@react-navigation/native';
 
 const LoginScreen = () => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    checkPassword: '',
+  });
+  const [error, setError] = useState(null);
   const [grade, setGrade] = useState('');
   const [gradeInfo, setGradeInfo] = useState('');
+
+  const navigation = useNavigation();
+
+  const onInputText = (key, value) => {
+    setForm({...form, [key]: value});
+  };
+
+  const onRegister = async () => {
+    const {email, password, checkPassword} = form;
+    const info = {email, password};
+
+    if (password !== checkPassword) {
+      setError('비밀번호가 맞지 않습니다.');
+      return;
+    }
+
+    if (grade === null || gradeInfo === null) {
+      return;
+    }
+
+    try {
+      await register(info);
+      setError(null);
+      navigation.navigate('MainTab', {
+        screen: 'Home',
+        params: {
+          grade,
+          gradeInfo,
+        },
+      });
+    } catch (e) {
+      switch (e.code) {
+        case 'auth/weak-password':
+          setError('비밀번호는 6자리 이상이어야 합니다');
+          break;
+        case 'auth/invalid-email':
+          setError('잘못된 이메일 주소입니다');
+          break;
+        case 'auth/missing-password':
+          setError('비밀번호를 입력해주세요');
+          break;
+        case 'auth/missing-email':
+          setError('이메일을 입력해주세요');
+          break;
+        case 'auth/email-already-in-use':
+          setError('이미 가입되어 있는 계정입니다');
+          break;
+      }
+    }
+  };
 
   return (
     <View style={styles.block}>
@@ -24,6 +82,8 @@ const LoginScreen = () => {
               returnKeyType="next"
               placeholder="이메일을 입력해주세요."
               keyboardType="email-address"
+              value={form.email}
+              onChangeText={text => onInputText('email', text)}
             />
           </View>
           <View style={styles.registerInput}>
@@ -32,6 +92,8 @@ const LoginScreen = () => {
               style={styles.inputBorder}
               secureTextEntry
               placeholder="비밀번호 입력"
+              value={form.password}
+              onChangeText={text => onInputText('password', text)}
             />
           </View>
           <View style={styles.registerInput}>
@@ -40,6 +102,8 @@ const LoginScreen = () => {
               style={styles.inputBorder}
               secureTextEntry
               placeholder="비밀번호 입력"
+              value={form.checkPassword}
+              onChangeText={text => onInputText('checkPassword', text)}
             />
           </View>
           <View style={styles.info}>
@@ -47,11 +111,12 @@ const LoginScreen = () => {
               onValueChange={value => setGrade(value)}
               items={[
                 {label: '1', value: '1'},
-                {label: '2', value: '3'},
-                {label: '3', value: '2'},
+                {label: '2', value: '2'},
+                {label: '3', value: '3'},
               ]}
+              placeholder={{label: '학년 선택', value: null}}
             />
-            <Text>학년</Text>
+            <Text>학년 </Text>
             <Picker
               onValueChange={value => setGradeInfo(value)}
               items={[
@@ -61,9 +126,13 @@ const LoginScreen = () => {
                 {label: '클라우드보안', value: '클라우드보안'},
                 {label: '메타버스게임', value: '메타버스게임'},
               ]}
+              placeholder={{label: '학과 선택', value: null}}
             />
             <Text>과</Text>
           </View>
+        </View>
+        <View style={styles.error}>
+          {error && <Text style={styles.errorMessage}>{error}</Text>}
         </View>
         <Pressable
           style={({pressed}) => [
@@ -72,7 +141,8 @@ const LoginScreen = () => {
               pressed && {
                 backgroundColor: '#e8e8e8',
               },
-          ]}>
+          ]}
+          onPress={onRegister}>
           <Text style={styles.registerBtnFont}>회원가입</Text>
         </Pressable>
       </View>
@@ -104,6 +174,14 @@ const styles = StyleSheet.create({
   },
   info: {
     flexDirection: 'row',
+  },
+  error: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: '#ff0000',
   },
   registerBtnWrapper: {
     width: '85%',
