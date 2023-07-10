@@ -10,16 +10,18 @@ import {
 import Picker from 'react-native-picker-select';
 import {register} from '../lib/auth';
 import {useNavigation} from '@react-navigation/native';
+import {usersInfo} from '../lib/users';
+import {v4 as uuidv4} from 'uuid';
 
 const LoginScreen = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
     checkPassword: '',
+    grade: '',
+    gradeInfo: '',
   });
   const [error, setError] = useState(null);
-  const [grade, setGrade] = useState('');
-  const [gradeInfo, setGradeInfo] = useState('');
 
   const navigation = useNavigation();
 
@@ -28,8 +30,8 @@ const LoginScreen = () => {
   };
 
   const onRegister = async () => {
-    const {email, password, checkPassword} = form;
-    const info = {email, password};
+    const {email, password, checkPassword, grade, gradeInfo} = form;
+    const info = {email, password, grade, gradeInfo};
 
     if (password !== checkPassword) {
       setError('비밀번호가 맞지 않습니다.');
@@ -43,6 +45,13 @@ const LoginScreen = () => {
     try {
       await register(info);
       setError(null);
+      usersInfo({
+        id: uuidv4(),
+        email,
+        password,
+        grade,
+        gradeInfo,
+      });
       navigation.navigate('MainTab', {
         screen: 'Home',
         params: {
@@ -52,17 +61,17 @@ const LoginScreen = () => {
       });
     } catch (e) {
       switch (e.code) {
-        case 'auth/weak-password':
-          setError('비밀번호는 6자리 이상이어야 합니다');
-          break;
-        case 'auth/invalid-email':
-          setError('잘못된 이메일 주소입니다');
+        case 'auth/missing-email':
+          setError('이메일을 입력해주세요');
           break;
         case 'auth/missing-password':
           setError('비밀번호를 입력해주세요');
           break;
-        case 'auth/missing-email':
-          setError('이메일을 입력해주세요');
+        case 'auth/invalid-email':
+          setError('잘못된 이메일 주소입니다');
+          break;
+        case 'auth/weak-password':
+          setError('비밀번호는 6자리 이상이어야 합니다');
           break;
         case 'auth/email-already-in-use':
           setError('이미 가입되어 있는 계정입니다');
@@ -108,7 +117,7 @@ const LoginScreen = () => {
           </View>
           <View style={styles.info}>
             <Picker
-              onValueChange={value => setGrade(value)}
+              onValueChange={value => onInputText('grade', value)}
               items={[
                 {label: '1', value: '1'},
                 {label: '2', value: '2'},
@@ -118,7 +127,7 @@ const LoginScreen = () => {
             />
             <Text>학년 </Text>
             <Picker
-              onValueChange={value => setGradeInfo(value)}
+              onValueChange={value => onInputText('gradeInfo', value)}
               items={[
                 {label: '네트워크보안', value: '네트워크보안'},
                 {label: '게임과', value: '게임과'},
