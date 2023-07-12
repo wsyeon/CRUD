@@ -1,12 +1,23 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import TransparentCircleButton from './TransparentCircleButton';
 
 const WriteHeader = () => {
+  const navigation = useNavigation();
+
+  const onGoBack = () => {
+    navigation.pop();
+  };
+
   return (
     <View style={styles.block}>
       <View style={styles.iconButtonWrapper}>
-        <TransparentCircleButton name="arrow-back" color="#424242" />
+        <TransparentCircleButton
+          onPress={onGoBack}
+          name="arrow-back"
+          color="#424242"
+        />
       </View>
       <View style={styles.buttons}>
         <TransparentCircleButton
