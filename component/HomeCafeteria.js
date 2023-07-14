@@ -4,7 +4,7 @@ import {View, Text, StyleSheet} from 'react-native';
 const HomeCafeteria = () => {
   return (
     <View style={styles.block}>
-      <Text style={styles.exampleText}>급식입니다!</Text>
+      <Text style={styles.exampleText}>급식 or 시간표</Text>
     </View>
   );
 };
