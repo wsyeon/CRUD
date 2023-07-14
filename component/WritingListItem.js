@@ -1,20 +1,20 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Text, StyleSheet, Pressable} from 'react-native';
+import {Text, StyleSheet, Pressable, View} from 'react-native';
 import {formatDistanceToNow, format} from 'date-fns';
 import {ko} from 'date-fns/locale';
 
 const WritingListItem = ({data}) => {
   const navigation = useNavigation();
   const {item} = data;
-  const {title, body, date, email} = item;
+  const {title, body, date, nickName} = item;
 
   const onPress = () => {
     navigation.navigate('Detail', {
       title,
       body,
       date,
-      email,
+      nickName,
     });
   };
 
@@ -33,7 +33,10 @@ const WritingListItem = ({data}) => {
   return (
     <Pressable style={styles.block} onPress={onPress}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.date}>{formatDate(date)}</Text>
+      <View style={{flexDirection: 'row'}}>
+        <Text style={styles.date}>{nickName}∘</Text>
+        <Text style={styles.date}>{formatDate(date)}</Text>
+      </View>
       <Text style={styles.body}>{body}</Text>
     </Pressable>
   );
