@@ -5,10 +5,10 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import CommentContent from '../component/CommentContent';
 import Search from '../component/Search';
 
-const CommentScreen = () => {
+const CommentScreen = ({route}) => {
   return (
     <SafeAreaView style={styles.block}>
-      <AuthorOrTitleHeader />
+      <AuthorOrTitleHeader route={route} />
       <CommentContent />
       <Search name="send" color="#000" whiteColor />
     </SafeAreaView>
