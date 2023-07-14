@@ -7,12 +7,13 @@ const WritingList = () => {
   const [writeList, setWriteList] = useState([]);
 
   useEffect(() => {
-    const stopUpdates = getWrite(data => {
+    const unsubscribe = getWrite(data => {
       setWriteList(data);
     });
 
-    // 컴포넌트 언마운트 시에 unsubscribe 함수 호출하여 실시간 업데이트 중단
-    return () => stopUpdates();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   return (
