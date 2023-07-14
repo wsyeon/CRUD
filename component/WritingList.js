@@ -1,24 +1,39 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 import WritingListItem from './WritingListItem';
+import {getWrite} from '../lib/write';
 
 const WritingList = () => {
+  const [writeList, setWriteList] = useState([]);
+
+  useEffect(() => {
+    const stopUpdates = getWrite(data => {
+      setWriteList(data);
+    });
+
+    // 컴포넌트 언마운트 시에 unsubscribe 함수 호출하여 실시간 업데이트 중단
+    return () => stopUpdates();
+  }, []);
+
   return (
-    <View style={styles.block}>
-      <WritingListItem />
-      <WritingListItem />
-      <WritingListItem />
-      <WritingListItem />
-      <WritingListItem />
-      <WritingListItem />
-      <WritingListItem />
-    </View>
+    <FlatList
+      data={writeList}
+      style={styles.block}
+      renderItem={item => <WritingListItem data={item} />}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      keyExtractor={log => log.id}
+    />
   );
 };
 
 const styles = StyleSheet.create({
   block: {
     flex: 1,
+  },
+  separator: {
+    backgroundColor: '#e0e0e0',
+    height: 1,
+    width: '100%',
   },
 });
 

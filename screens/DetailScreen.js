@@ -6,11 +6,11 @@ import DetailContent from '../component/DetailContent';
 import DetailComment from '../component/DetailComment';
 import Search from '../component/Search';
 
-const DetailScreen = () => {
+const DetailScreen = ({route}) => {
   return (
     <SafeAreaView style={styles.block}>
       <AuthorOrTitleHeader />
-      <DetailContent />
+      <DetailContent route={route} />
       <DetailComment />
       <Search name="send" whiteColor color="#000" />
     </SafeAreaView>

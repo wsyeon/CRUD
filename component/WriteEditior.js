@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import {View, StyleSheet, TextInput} from 'react-native';
 
-const WriteEditior = () => {
+const WriteEditior = ({title, body, onChangeTitle, onChangeBody}) => {
   const bodyRef = useRef();
   return (
     <View style={styles.block}>
@@ -9,12 +9,16 @@ const WriteEditior = () => {
         placeholder="제목을 입력하세요."
         style={styles.titleInput}
         returnKeyType="next"
+        value={title}
+        onChangeText={onChangeTitle}
         onSubmitEditing={() => bodyRef.current.focus()}
       />
       <TextInput
         placeholder="당신의 오늘을 기록해보세요."
         style={styles.bodyInput}
         multiline
+        value={body}
+        onChangeText={onChangeBody}
         ref={bodyRef}
       />
     </View>
