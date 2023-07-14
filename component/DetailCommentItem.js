@@ -2,11 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
-const DetailCommentItem = () => {
+const DetailCommentItem = ({route}) => {
   const navigation = useNavigation();
+  const info = route?.params;
+  const {title} = info;
 
   const goComment = () => {
-    navigation.navigate('Comment');
+    navigation.navigate('Comment', {title});
   };
 
   return (

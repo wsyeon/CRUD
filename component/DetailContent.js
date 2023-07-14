@@ -16,7 +16,7 @@ const DetailContent = ({route}) => {
     <View style={styles.block}>
       <View style={[styles.border, styles.title]}>
         <Text style={styles.writeTitle}>{info.title}</Text>
-        <Text style={styles.writeId}>{info.email}</Text>
+        <Text style={styles.writeId}>{info.nickName}</Text>
         <Text style={styles.writeDate}>{info.date}</Text>
       </View>
       <ScrollView

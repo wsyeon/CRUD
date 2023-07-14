@@ -2,10 +2,10 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import DetailCommentList from './DetailCommentList';
 
-const DetailComment = () => {
+const DetailComment = ({route}) => {
   return (
     <View style={styles.block}>
-      <DetailCommentList />
+      <DetailCommentList route={route} />
     </View>
   );
 };
