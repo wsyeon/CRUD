@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-const HomeHeader = ({userGradeInfo}) => {
+const HomeHeader = ({userGradeInfo, name}) => {
   const today = new Date();
   const dateString = today.toLocaleDateString('ko-KR', {
     year: 'numeric',
@@ -16,7 +16,7 @@ const HomeHeader = ({userGradeInfo}) => {
     <View>
       <View style={styles.block}>
         <Text style={[styles.headFont, styles.headBigFont]}>
-          {userGradeInfo.grade}학년 {userGradeInfo.gradeInfo}과
+          {userGradeInfo.grade}학년 {userGradeInfo.gradeInfo}과 {name}
         </Text>
         <Text style={styles.headFont}>
           {dateString} {dayName}
