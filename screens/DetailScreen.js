@@ -11,7 +11,7 @@ const DetailScreen = ({route}) => {
     <SafeAreaView style={styles.block}>
       <AuthorOrTitleHeader />
       <DetailContent route={route} />
-      <DetailComment />
+      <DetailComment route={route} />
       <Search name="send" whiteColor color="#000" />
     </SafeAreaView>
   );
