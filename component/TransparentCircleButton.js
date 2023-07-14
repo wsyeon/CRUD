@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     height: 32,
     borderRadius: 16,
   },
-  rih: {
+  rightMargin: {
     marginRight: 8,
   },
 });
