@@ -30,13 +30,14 @@ const LoginScreen = () => {
     try {
       const {user} = await login(info);
       const userInfo = await getUser(user.email);
-      const {grade, gradeInfo} = userInfo;
+      const {grade, gradeInfo, nickName} = userInfo;
 
       navigation.navigate('MainTab', {
         screen: 'Home',
         params: {
           grade,
           gradeInfo,
+          nickName,
         },
       });
     } catch (e) {

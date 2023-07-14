@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import Picker from 'react-native-picker-select';
-import {register} from '../lib/auth';
+import {currentUserInfo, register} from '../lib/auth';
 import {useNavigation} from '@react-navigation/native';
 import {usersInfo} from '../lib/users';
 import {v4 as uuidv4} from 'uuid';
@@ -20,8 +20,10 @@ const LoginScreen = () => {
     checkPassword: '',
     grade: '',
     gradeInfo: '',
+    nickName: '',
   });
   const [error, setError] = useState(null);
+  const user = currentUserInfo();
 
   const navigation = useNavigation();
 
@@ -30,8 +32,8 @@ const LoginScreen = () => {
   };
 
   const onRegister = async () => {
-    const {email, password, checkPassword, grade, gradeInfo} = form;
-    const info = {email, password, grade, gradeInfo};
+    const {email, password, checkPassword, grade, gradeInfo, nickName} = form;
+    const info = {email, password, grade, gradeInfo, nickName};
 
     if (password !== checkPassword) {
       setError('비밀번호가 맞지 않습니다.');
@@ -44,6 +46,9 @@ const LoginScreen = () => {
 
     try {
       await register(info);
+      user.updateProfile({
+        displayName: nickName,
+      });
       setError(null);
       usersInfo({
         id: uuidv4(),
@@ -51,12 +56,14 @@ const LoginScreen = () => {
         password,
         grade,
         gradeInfo,
+        nickName,
       });
       navigation.navigate('MainTab', {
         screen: 'Home',
         params: {
           grade,
           gradeInfo,
+          nickName,
         },
       });
     } catch (e) {
@@ -84,6 +91,17 @@ const LoginScreen = () => {
     <View style={styles.block}>
       <View style={styles.registerWrapper}>
         <View style={styles.registerInputWrapper}>
+          <View style={styles.registerInput}>
+            <Text>닉네임</Text>
+            <TextInput
+              style={styles.inputBorder}
+              returnKeyType="next"
+              placeholder="별명을 적어주세요."
+              keyboardType="email-address"
+              value={form.nickName}
+              onChangeText={text => onInputText('nickName', text)}
+            />
+          </View>
           <View style={styles.registerInput}>
             <Text>아이디</Text>
             <TextInput

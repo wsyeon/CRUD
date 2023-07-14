@@ -6,12 +6,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 const HomeScreen = ({route}) => {
   const router = route?.params;
-  const {grade, gradeInfo} = router;
+  const {grade, gradeInfo, nickName} = router;
   const userGradeInfo = {grade, gradeInfo};
+  const name = nickName;
 
   return (
     <SafeAreaView style={styles.block}>
-      <HomeHeader userGradeInfo={userGradeInfo} />
+      <HomeHeader userGradeInfo={userGradeInfo} name={name} />
       <HomeCafeteria />
     </SafeAreaView>
   );

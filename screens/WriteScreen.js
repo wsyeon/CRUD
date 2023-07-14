@@ -14,6 +14,8 @@ const WriteScreen = () => {
 
   const navigation = useNavigation();
 
+  const user = currentUserInfo();
+
   const onSave = async () => {
     const email = currentUserInfo().email;
     try {
@@ -23,6 +25,7 @@ const WriteScreen = () => {
         title,
         body,
         date: new Date().toISOString(),
+        nickName: user.displayName,
       });
       navigation.pop();
     } catch (e) {
