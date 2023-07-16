@@ -4,7 +4,7 @@ import AuthorOrTitleHeader from '../component/AuthorOrTitleHeader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import DetailContent from '../component/DetailContent';
 import DetailComment from '../component/DetailComment';
-import Search from '../component/Search';
+import SearchDown from '../component/SearchDown';
 
 const DetailScreen = ({route}) => {
   return (
@@ -12,7 +12,7 @@ const DetailScreen = ({route}) => {
       <AuthorOrTitleHeader />
       <DetailContent route={route} />
       <DetailComment route={route} />
-      <Search name="send" whiteColor color="#000" />
+      <SearchDown name="send" whiteColor color="#000" route={route} />
     </SafeAreaView>
   );
 };
