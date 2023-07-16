@@ -1,33 +1,35 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {formatDate} from './WritingListItem';
+import {getReply} from '../lib/reply';
+import CommentContentItem from './CommentContentItem';
 
-const CommentContent = () => {
+const CommentContent = ({route}) => {
+  const info = route?.params;
+  const {item} = info;
+  const {nickName, comment, date, id} = item;
+  const [replyList, setReplyList] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = getReply(id, data => {
+      setReplyList(data);
+    });
+
+    return () => unsubscribe;
+  }, [id]);
+
   return (
     <View style={styles.block}>
       <View style={styles.writer}>
-        <Text>아이디</Text>
-        <Text>내용</Text>
+        <Text>{nickName}</Text>
+        <Text>{formatDate(date)}</Text>
+        <Text>{comment}</Text>
       </View>
-      <ScrollView
-        style={styles.readerWrapper}
-        contentContainerStyle={styles.readerContainer}>
-        <View style={styles.reader}>
-          <Text>아이디</Text>
-          <Text>내용</Text>
-        </View>
-        <View style={styles.reader}>
-          <Text>아이디</Text>
-          <Text>내용</Text>
-        </View>
-        <View style={styles.reader}>
-          <Text>아이디</Text>
-          <Text>내용</Text>
-        </View>
-        <View style={styles.reader}>
-          <Text>아이디</Text>
-          <Text>내용</Text>
-        </View>
-      </ScrollView>
+      <FlatList
+        data={replyList}
+        renderItem={reply => <CommentContentItem reply={reply} />}
+        keyExtractor={data => data.id}
+      />
     </View>
   );
 };
