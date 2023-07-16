@@ -41,6 +41,7 @@ const LoginScreen = () => {
         },
       });
     } catch (e) {
+      console.log(e);
       switch (e.code) {
         case 'auth/invalid-email':
           setError('이메일을 입력해주세요');

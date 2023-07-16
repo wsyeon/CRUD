@@ -11,9 +11,7 @@ const WritingList = () => {
       setWriteList(data);
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe;
   }, []);
 
   return (
