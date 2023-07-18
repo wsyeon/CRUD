@@ -38,7 +38,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   bodyInput: {
-    flex: 1,
     fontSize: 16,
     paddingVertical: 0,
     color: '#263238',

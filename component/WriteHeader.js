@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Alert} from 'react-native';
 import TransparentCircleButton from './TransparentCircleButton';
 
 const WriteHeader = ({onSave}) => {
@@ -8,6 +8,23 @@ const WriteHeader = ({onSave}) => {
 
   const onGoBack = () => {
     navigation.pop();
+  };
+
+  const onCancel = () => {
+    Alert.alert(
+      '작성중인 글을 취소하시겠습니까?',
+      '작성중인 글을 취소하시겠습니까? 취소하시면 지금까지 작성한 내용이 사라집니다.',
+      [
+        {
+          text: '취소',
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => navigation.pop(),
+        },
+      ],
+    );
   };
 
   return (
@@ -23,6 +40,7 @@ const WriteHeader = ({onSave}) => {
         <TransparentCircleButton
           name="delete-forever"
           color="#ef5350"
+          onPress={onCancel}
           hasMarginRight
         />
         <TransparentCircleButton
