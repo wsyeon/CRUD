@@ -1,52 +1,51 @@
-import React from 'react';
-import {View, StyleSheet, TextInput} from 'react-native';
+import React, {useContext} from 'react';
+import {
+  Pressable,
+  StyleSheet,
+  TextInput,
+  useWindowDimensions,
+} from 'react-native';
+import {View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchContext from '../contexts/SearchContext';
 
-const SearchUp = ({name, whiteColor, color, marginBottom}) => {
+const SearchUp = () => {
+  const {width} = useWindowDimensions();
+  const {keyword, onChangeText} = useContext(SearchContext);
+
   return (
-    <View style={styles.block}>
-      <View
-        style={[
-          styles.searchHeader,
-          whiteColor && styles.whiteBackColor,
-          marginBottom && styles.marginB,
-        ]}>
-        <TextInput style={styles.searchInput} placeholder="입력해주세요" />
-        <Icon
-          style={[styles.icon, whiteColor && styles.iconColor]}
-          name={name}
-          size={38}
-          color={color}
-        />
-      </View>
+    <View style={[styles.block, {width: width - 32}]}>
+      <TextInput
+        style={styles.input}
+        placeholder="검색어를 입력하세요."
+        value={keyword}
+        onChangeText={onChangeText}
+        autoFocus
+      />
+      <Pressable
+        style={({pressed}) => [
+          styles.button,
+          pressed && {
+            opacity: 0.4,
+          },
+        ]}
+        onPress={() => onChangeText('')}>
+        <Icon name="cancel" size={20} color="#9e9e9e" />
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  block: {},
-  searchHeader: {
+  block: {
     flexDirection: 'row',
-    height: 60,
-    backgroundColor: '#333',
-    justifyContent: 'center',
     alignItems: 'center',
   },
-  marginB: {
-    marginBottom: 50,
+  input: {
+    flex: 1,
   },
-  searchInput: {
-    backgroundColor: '#fff',
-    width: 274,
-    height: 37,
-    borderRadius: 15,
-    paddingLeft: 10,
-  },
-  icon: {
-    marginLeft: 16,
-  },
-  whiteBackColor: {
-    backgroundColor: '#d9d9d9',
+  button: {
+    marginLeft: 8,
   },
 });
 
