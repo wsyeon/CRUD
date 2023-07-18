@@ -21,8 +21,10 @@ const CommentContent = ({route}) => {
   return (
     <View style={styles.block}>
       <View style={styles.writer}>
-        <Text>{nickName}</Text>
-        <Text>{formatDate(date)}</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text>{nickName}</Text>
+          <Text>{formatDate(date)}</Text>
+        </View>
         <Text>{comment}</Text>
       </View>
       <FlatList

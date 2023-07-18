@@ -1,16 +1,38 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {formatDate} from './WritingListItem';
+import {currentUserInfo} from '../lib/auth';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import {deleteReply} from '../lib/reply';
 
 const CommentContentItem = ({reply}) => {
   const {item} = reply;
+  const {email, id} = item;
+
+  const onDelete = userId => {
+    deleteReply(userId);
+  };
 
   return (
     <View style={[styles.block, styles.readerContainer]}>
       <View style={styles.reader}>
-        <View style={{flexDirection: 'row'}}>
-          <Text>{item.nickName}</Text>
-          <Text>{formatDate(item.date)}</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingRight: 8,
+          }}>
+          <View style={{flexDirection: 'row'}}>
+            <Text>{item.nickName}</Text>
+            <Text>{formatDate(item.date)}</Text>
+          </View>
+          {email === currentUserInfo().email ? (
+            <Pressable onPress={() => onDelete(id)}>
+              <Text>삭제</Text>
+            </Pressable>
+          ) : (
+            <></>
+          )}
         </View>
         <Text>{item.reply}</Text>
       </View>
