@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import WritingListItem from './WritingListItem';
 import {getWrite} from '../lib/write';
+import EmptySeacrchResult from './EmptySeacrchResult';
 
-const WritingList = () => {
+const WritingList = ({search}) => {
   const [writeList, setWriteList] = useState([]);
 
   useEffect(() => {
@@ -14,9 +15,13 @@ const WritingList = () => {
     return () => unsubscribe;
   }, []);
 
+  if (writeList.length === 0) {
+    return <EmptySeacrchResult type="NO_LIST" />;
+  }
+
   return (
     <FlatList
-      data={writeList}
+      data={search ? search : writeList}
       style={styles.block}
       renderItem={item => <WritingListItem data={item} />}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
