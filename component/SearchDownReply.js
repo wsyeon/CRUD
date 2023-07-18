@@ -7,7 +7,7 @@ import {writeReply} from '../lib/reply';
 
 const SearchDownReply = ({name, whiteColor, color, marginBottom, route}) => {
   const [reply, setReply] = useState('');
-  const nickName = currentUserInfo().displayName;
+  const {displayName, email} = currentUserInfo();
   const {item} = route?.params;
   const id = item?.id;
 
@@ -16,8 +16,9 @@ const SearchDownReply = ({name, whiteColor, color, marginBottom, route}) => {
       id: uuidv4(),
       referenceId: id,
       reply,
-      nickName,
+      nickName: displayName,
       date: new Date().toISOString(),
+      email,
     });
     setReply('');
   };
