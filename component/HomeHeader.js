@@ -13,22 +13,19 @@ const HomeHeader = ({userGradeInfo, name}) => {
   });
 
   return (
-    <View>
-      <View style={styles.block}>
-        <Text style={[styles.headFont, styles.headBigFont]}>
-          {userGradeInfo.grade}학년 {userGradeInfo.gradeInfo}과 {name}
-        </Text>
-        <Text style={styles.headFont}>
-          {dateString} {dayName}
-        </Text>
-      </View>
+    <View style={styles.block}>
+      <Text style={[styles.headFont, styles.headBigFont]}>
+        {userGradeInfo.grade}학년 {userGradeInfo.gradeInfo} {name}
+      </Text>
+      <Text style={styles.headFont}>
+        {dateString} {dayName}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   block: {
-    width: 390,
     height: 80,
     backgroundColor: '#e3e3e3',
   },
