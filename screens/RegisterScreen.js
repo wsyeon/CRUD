@@ -50,7 +50,7 @@ const LoginScreen = () => {
         displayName: nickName,
       });
       setError(null);
-      usersInfo({
+      await usersInfo({
         id: uuidv4(),
         email,
         password,
@@ -147,11 +147,11 @@ const LoginScreen = () => {
             <Picker
               onValueChange={value => onInputText('gradeInfo', value)}
               items={[
-                {label: '네트워크보안', value: '네트워크보안'},
-                {label: '게임과', value: '게임과'},
-                {label: '해킹보안', value: '해킹보안'},
-                {label: '클라우드보안', value: '클라우드보안'},
-                {label: '메타버스게임', value: '메타버스게임'},
+                {label: '네트워크보안', value: '네트워크보안과'},
+                {label: '게임', value: '게임과'},
+                {label: '해킹보안', value: '해킹보안과'},
+                {label: '클라우드보안', value: '클라우드보안과'},
+                {label: '메타버스게임', value: '메타버스게임과'},
               ]}
               placeholder={{label: '학과 선택', value: null}}
             />
@@ -200,6 +200,7 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
   },
   info: {
+    marginTop: 16,
     flexDirection: 'row',
   },
   error: {

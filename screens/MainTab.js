@@ -2,8 +2,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import HomeScreen from './HomeScreen';
 import WritingScreen from './WritingScreen';
-import ProfileScreen from './ProfileScreen';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import SearchScreen from './SearchScreen';
+import SearchUp from '../component/SearchUp';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,12 +35,13 @@ const MainTab = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
+        name="Search"
+        component={SearchScreen}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Icon name="person" size={size} color={color} />
+            <Icon name="search" size={size} color={color} />
           ),
+          headerTitle: () => <SearchUp />,
         }}
       />
     </Tab.Navigator>
