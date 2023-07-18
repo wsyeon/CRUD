@@ -7,7 +7,7 @@ import {v4 as uuidv4} from 'uuid';
 
 const SearchDown = ({name, whiteColor, color, marginBottom, route}) => {
   const [comment, setComment] = useState('');
-  const nickName = currentUserInfo().displayName;
+  const {displayName, email} = currentUserInfo();
   const info = route?.params;
   const id = info?.id;
 
@@ -16,8 +16,9 @@ const SearchDown = ({name, whiteColor, color, marginBottom, route}) => {
       id: uuidv4(),
       referenceId: id,
       comment,
-      nickName,
+      nickName: displayName,
       date: new Date().toISOString(),
+      email,
     });
     setComment('');
   };
