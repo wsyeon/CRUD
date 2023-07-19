@@ -1,10 +1,39 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {getUser} from '../lib/users';
 
 const StartScreen = () => {
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const getSessionData = async () => {
+      try {
+        const sessionData = await AsyncStorage.getItem('session');
+        const resultData = JSON.parse(sessionData);
+        const routeInfo = await getUser(resultData);
+        const {grade, gradeInfo, nickName} = routeInfo;
+
+        if (sessionData) {
+          navigation.navigate('MainTab', {
+            screen: 'Home',
+            params: {
+              grade,
+              gradeInfo,
+              nickName,
+            },
+          });
+        } else {
+          navigation.navigate('Login');
+        }
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    getSessionData();
+  }, [navigation]);
 
   const gologin = () => {
     navigation.navigate('Login');
