@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {usersInfo} from '../lib/users';
 import {v4 as uuidv4} from 'uuid';
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -45,11 +45,6 @@ const LoginScreen = () => {
     }
 
     try {
-      await register(info);
-      user.updateProfile({
-        displayName: nickName,
-      });
-      setError(null);
       await usersInfo({
         id: uuidv4(),
         email,
@@ -58,14 +53,11 @@ const LoginScreen = () => {
         gradeInfo,
         nickName,
       });
-      navigation.navigate('MainTab', {
-        screen: 'Home',
-        params: {
-          grade,
-          gradeInfo,
-          nickName,
-        },
+      await register(info);
+      user.updateProfile({
+        displayName: nickName,
       });
+      setError(null);
     } catch (e) {
       switch (e.code) {
         case 'auth/missing-email':
@@ -85,6 +77,14 @@ const LoginScreen = () => {
           break;
       }
     }
+    navigation.navigate('MainTab', {
+      screen: 'Home',
+      params: {
+        grade,
+        gradeInfo,
+        nickName,
+      },
+    });
   };
 
   return (
@@ -227,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;
